@@ -1,0 +1,26 @@
+{
+  "name": "onboard",
+  "version": "1.0.0",
+  "description": "onboard project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "https://github.com/APD-Kim/resume-project.git",
+    "url": "646450"
+  },
+  "author": "APD-Kim",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.1.4",
+    "swagger": "^0.7.5",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "type": "module"
+}
