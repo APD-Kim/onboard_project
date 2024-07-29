@@ -21,4 +21,17 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   role      String   @default("ROLE_USER")
+
+  refreshTokens RefreshToken[]
+}
+
+model RefreshToken {
+  tokenId   Int      @id @default(autoincrement())
+  userId    Int
+  token     String   @unique
+  expiredAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [userId])
+
+  @@index([userId])
 }

@@ -1,6 +1,3 @@
-import CustomError from "../utils/errorHandler.js";
-import { passwordRegex } from "../utils/regex.js";
-
 export class AuthController {
   constructor(authService) {
     this.authService = authService;
@@ -8,18 +5,33 @@ export class AuthController {
 
   signUp = async (req, res, next) => {
     try {
-      const { clientId, password, name } = req.body;
+      const { username, password, nickname } = req.body;
 
-      if (!clientId | !password | !name) {
-        throw new CustomError(400, "잘못된 요청입니다. 빈 칸이 없는지 확인해주세요.");
-      }
-      const regexResult = passwordRegex(password);
-      if (!regexResult) {
-        throw new CustomError(400, "비밀번호는 6자 이상이어야 하며, 영문자와 숫자를 모두 포함해야 합니다.");
-      }
-      const result = await this.authService.signUp(clientId, password, name);
+      const result = await this.authService.signUp(username, password, nickname);
 
       res.status(201).json({ data: result });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  logIn = async (req, res, next) => {
+    try {
+      const { username, password } = req.body;
+      const user = await this.authService.authenticateUser(username, password);
+
+      res.cookie("authorization", user.token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: parseInt(process.env.AUTH_TOKEN_EXPIRE) || 1 * 60 * 60 * 1000,
+      });
+      res.cookie("refreshToken", user.refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: parseInt(process.env.REFRESH_TOKEN_EXPIRE) || 24 * 60 * 60 * 1000 * 7,
+      });
+
+      res.status(200).json({ token: user.token });
     } catch (err) {
       next(err);
     }
