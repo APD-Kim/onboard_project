@@ -3,8 +3,17 @@ import "dotenv/config";
 import { specs, swaggerUi } from "../swagger.js";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.routes.js";
+import cors from "cors";
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use(cookieParser());

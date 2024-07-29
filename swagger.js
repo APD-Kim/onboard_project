@@ -18,6 +18,10 @@ const swaggerDefinition = {
       url: "http://localhost:3000",
       description: "Development server",
     },
+    {
+      url: "http://13.125.24.145:3000",
+      description: "EC2 server",
+    },
   ],
   components: {
     securitySchemes: {
@@ -32,7 +36,7 @@ const swaggerDefinition = {
 
 const options = {
   swaggerDefinition,
-  apis: [path.join(__dirname, "./src/routes/*.js")],
+  apis: [path.join(__dirname, "./src/routers/*.js")],
   failOnErrors: true,
 };
 
